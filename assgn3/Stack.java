@@ -46,7 +46,7 @@ public class Stack<T> {
 	
 	public void display() {
 		if(!isEmpty()) {
-			System.out.printf("Stack: ");
+			//System.out.printf("Stack: ");
 			for(int i=0; i<=top;i++)
 				System.out.printf("%s ", a[i]);
 		}
@@ -62,6 +62,18 @@ public class Stack<T> {
 	
 	public boolean isFull() {
 		return top==MAX-1;
-	}	
+	}
+
+	public int getIndex(T item) {
+		for(int i=0; i < MAX-1;i++ ) {
+			if(item==a[i])
+				return i;
+		}
+		return 0;
+	}
+	
+	public T getElementbyindex(int i) {
+		return a[i];
+	}
 	
 }

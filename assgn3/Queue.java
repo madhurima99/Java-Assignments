@@ -1,84 +1,81 @@
 package assgn3;
 import assgn3.Stack;
 
-public class Queue<T> extends Stack<T> {
+public class Queue<T>{
+    
+	Stack <T> st1, st2;
 	
-	private T a[];
-	private int front;
-	private int rear;
-	final int MAX = 5;
-	
-	public Queue() {
-		a = (T[])new Object[MAX];
-		front = -1;
-		rear = -1;
+	public Queue()
+	{
+		 st1 = new Stack <T>();
+		 st2 = new Stack <T>();
 	}
 	
-	public boolean enqueue(T item) {
-		
-	    if(!isFull())
-	    {
-	        if (front == - 1)
-	        /*If queue is initially empty */
-	                 front = 0;
-	        rear++;
-	        a[rear] = item;
-	        return true;
-	    }
-	    else {
-	    	System.out.println("Queue Overflow.");
-			return false;	    	
-	    }
-		
-	}	
+	public boolean enqueue(T data)
+	{
+		 return st1.push(data);
+	}
 	
-	public boolean dequeue() {
-		
-		if(!isEmpty()) {
-	        front++;
-	        
-	        if(front-rear==1) {
-	        	front=-1;
-	        	rear=-1;
-	        }
-	        	
-	        return true;
-		}
-		else {
-			System.out.println("Queue underflow.");
+	public boolean dequeue() throws Exception
+	{   
+		boolean flag;
+	
+		if(st1.isEmpty() && st2.isEmpty())
+		{  
+			System.out.println("Queue is empty.");
 			return false;
 		}
-		
+		else {
+			if(st2.isEmpty())
+			{
+				while(!st1.isEmpty())
+				{
+					st2.push(st1.peek());
+					st1.pop();
+				}
+			}
+			st2.pop();
+			return true;
+		}
 	}
 	
 	public T peek() throws Exception
 	{
-		if(!isEmpty()){
-			T tmp = a[rear];
-			return tmp;
+		if(st1.isEmpty() && st2.isEmpty())
+		{
+			System.out.println("Queue is empty.");
+			throw new Exception();
+			
 		}
-		throw new Exception();
+		else if(st2.isEmpty() && !st1.isEmpty())
+				return st1.getElementbyindex(0);
+	    else
+				return st2.peek();			
 	}
 	
-	public void display() {
-		if(!isEmpty()) {
-			System.out.printf("Queue: ");
-			for(int i=front; i<=rear;i++)
-				System.out.printf("%s ", a[i]);
+	public void display() throws Exception {
+		if(st1.isEmpty() && st2.isEmpty())
+		{
+			System.out.println("Queue is empty.");			
 		}
-		else
-			System.out.println("Queue empty.");
-		
+		else {
+			System.out.printf("Queue: ");
+			
+			if(st2.isEmpty() && !st1.isEmpty()) {
+				st1.display();
+			}
+			
+			else if(!st2.isEmpty() && st1.isEmpty()) {
+				for(int i=st2.getIndex(st2.peek()); i>-1;i--) 
+				       System.out.printf("%s ",st2.getElementbyindex(i));		
+			}
+			
+			else if(!st2.isEmpty() && !st2.isEmpty()) {
+				for(int i=st2.getIndex(st2.peek()); i>-1;i--) 
+					System.out.printf("%s ",st2.getElementbyindex(i));
+				st1.display();
+			}
+		}
 	}	
 	
-	public boolean isEmpty()
-	{   if(front==-1 || front > rear)
-		   return true;
-	    return false;
-	}	
-	
-	public boolean isFull() {
-		return rear==MAX-1;
-	}	
-
 }
