@@ -1,1 +1,1 @@
-# Java-Assingments
+# Java Assignments
